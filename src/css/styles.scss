@@ -1,0 +1,597 @@
+@import "./fonts.scss";
+@import "./constants.scss";
+@import "./lds-roller.scss";
+@import "./_variables";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    font-family: "Muli", "Muli Bold", "Abril Bold";
+    scroll-behavior: smooth;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    z-index: 4;
+}
+
+header .content .logo {
+    max-width: 100px;
+}
+
+header .content .logo img {
+    width: 100%;
+}
+
+header .content .nav {
+    display: flex;
+}
+
+header .content .nav li {
+    margin: 0 0.5rem;
+}
+
+header .content .nav li:not(:last-child) {
+    display: none;
+}
+
+header .content .nav li:last-child {
+    margin-right: 0rem;
+}
+
+header .content .nav li:last-child .menu {
+    margin-left: 1rem;
+    z-index: 9;
+    position: relative;
+    color: white;
+    &.dark {
+        color: black;
+    }
+}
+
+// header .content .nav li a:not(.btn) {
+//   display: none;
+// }
+header .content .nav li a.btn {
+    background-color: $green;
+    border: 1px solid white;
+    font-size: 8px;
+}
+
+header .content .menu-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scaleY(0);
+    transition: transform 0.5s;
+    background-color: white;
+    padding: 1rem;
+    li {
+        list-style: none;
+        margin: 0 0.5rem;
+    }
+}
+
+header .content .menu-nav.show {
+    transform: scaleY(1);
+    z-index: 6;
+}
+
+main .banner {
+    display: flex;
+    justify-content: center;
+    background-image: url(../images/sq007-banner.jpg);
+    background-position: 50% 50%;
+    background-size: cover;
+    padding: 5rem 0 3rem;
+    position: relative;
+}
+
+main .banner::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+}
+
+main.stem .banner {
+    background-image: url(../images/stem.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+main.stem .banner::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+}
+
+main.decabelle .banner {
+    background-image: url(../images/deca-female.jpg);
+}
+
+main .banner .content {
+    flex-direction: column;
+    position: relative;
+}
+
+main .banner .content h2 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+    font-family: "Muli Bold";
+    padding: 4rem 1.5rem 0rem;
+    color: white;
+}
+
+// main.decabelle .banner .content h2,
+// main.decabelle .banner .content p {
+//   color: black;
+// }
+main .banner .content h2 span {
+    color: $green;
+}
+
+main .banner .content h2 span.span {
+    color: white;
+    font-size: 25px;
+}
+
+main .banner .content p {
+    padding: 1.5rem 0.5rem 3rem;
+    text-align: center;
+    color: white;
+}
+
+main .banner .content .horizontal {
+    border-left: 1px solid $green;
+    height: 6rem;
+    position: absolute;
+    bottom: -7rem;
+}
+
+main.decabelle .banner .content .horizontal {
+    bottom: -3rem;
+    height: 3rem;
+}
+
+main .girls-illustration {
+    display: none;
+    justify-content: center;
+}
+
+main .girls-illustration .content img {
+    width: 100%;
+}
+
+main .why-decagon {
+    display: flex;
+    justify-content: center;
+    background: transparent linear-gradient(180deg, #f1ffef 0%, #ffffff 100%) 0% 0% no-repeat padding-box;
+    min-height: 200px;
+    padding: 6rem 0 3rem;
+}
+
+main .why-decagon .content {
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+main .why-decagon .content .stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+main .why-decagon .content .stats h2 {
+    font-size: 16px;
+    padding-bottom: 1rem;
+    font-family: "Muli Bold";
+    text-align: center;
+}
+
+main .why-decagon .content .stats p {
+    text-align: center;
+}
+
+main .works {
+    display: flex;
+    justify-content: center;
+}
+
+main .works .content {
+    flex-direction: column;
+    padding: 1rem 2rem;
+}
+
+main .works .content .work-steps {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
+main .works .content .work-steps .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 2rem 1.5rem;
+}
+
+main .works .content .work-steps .step .step-img {
+    padding: 0.5rem 0;
+}
+
+main .works .content .work-steps .step .step-img img {
+    width: 100%;
+    max-width: 280px;
+}
+
+main .works .content .work-steps .step .step-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.5rem 0;
+}
+
+main .works .content .work-steps .step .step-info .title {
+    font-size: 14px;
+    font-family: "Muli";
+    padding-bottom: 0;
+    text-align: left;
+}
+
+main .works .content .work-steps .step .step-info p {
+    padding: 1rem 0;
+}
+
+main .works .content .work-steps .step .step-info .btn {
+    padding: 1rem;
+}
+
+main .faq-section {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+main .faq-section .content {
+    flex-direction: column;
+}
+
+main .faq-section .content .faq-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+main .faq-section .content .faq-title .title {
+    text-align: left;
+}
+
+main .faq-section .content .faq-title .btn {
+    margin-top: 1rem;
+}
+
+main .faq-section .content .faq-accordion .tabs,
+main .faq-section .content .faq-accordion .tabs .tab {
+    border: 1px solid;
+}
+
+main .cta {
+    display: flex;
+    justify-content: center;
+    background-image: url(../images/sq006-banner.jpg);
+    padding: 2rem 0;
+}
+
+main.decabelle .cta {
+    background-image: url(../images/sq006-banner-decabelle.jpg);
+    background-position: 50% 75%;
+}
+
+main .cta .content {
+    flex-direction: column;
+}
+
+main .cta .content .title {
+    color: white;
+    font-size: 30px;
+}
+
+footer {
+    display: flex;
+    padding: 1rem;
+    justify-content: center;
+}
+
+footer .content {
+    flex-direction: column;
+}
+
+footer .content .footer-img {
+    max-width: 150px;
+}
+
+footer .content .footer-img img {
+    width: 100%;
+    padding: 1rem;
+}
+
+footer .content p {
+    font-size: 12px;
+}
+
+@media (min-width: 480px) {
+    header .content .nav li a:not(.btn) {
+        display: unset;
+        color: white;
+    }
+    header .content .nav li.decabelle a {
+        color: $green;
+    }
+    header .content .nav li a.blackText {
+        color: black;
+    }
+    main .banner .content p {
+        padding: 1.5rem 1rem 3rem;
+        text-align: center;
+        color: white;
+    }
+    main .banner .content h2 {
+        font-size: 40px;
+        padding: 4rem 2.5rem 1rem;
+    }
+    main .banner .content p {
+        padding: 1.5rem 1.5rem 3rem;
+    }
+    main .banner .content .horizontal {
+        height: 6.5rem;
+    }
+    main .works .content .work-steps .step .step-img img {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 768px) {
+    header .content .nav li:not(:last-child) {
+        display: flex;
+    }
+    header .content .nav li:last-child .menu {
+        display: none;
+    }
+    main .banner .content h2 {
+        font-size: 55px;
+        padding: 6rem 2rem 1rem;
+    }
+    main .banner .content p {
+        padding: 1.5rem 3rem 4rem;
+    }
+    main .banner .content .horizontal {
+        height: 7rem;
+    }
+    main .why-decagon .content {
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 2rem;
+    }
+    main .why-decagon .content .stats {
+        max-width: 300px;
+        // max-width: 180px;
+    }
+    main .why-decagon .content .stats h2 {
+        font-size: 14px;
+    }
+    main .works .content .title {
+        padding-bottom: 2rem;
+    }
+    main .works .content .work-steps .step {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 2rem 1.5rem;
+        position: relative;
+    }
+    main .works .content .work-steps .step:nth-child(2) .step-img {
+        order: 1;
+    }
+    main .works .content .work-steps .step:nth-child(2) .step-img img {
+        margin-left: 3rem;
+    }
+    main .works .content .work-steps .step:nth-child(2) .step-info {
+        padding-left: 0.5rem;
+    }
+    main .works .content .work-steps .step .step-img,
+    main .works .content .work-steps .step .step-info {
+        flex: 0 0 50%;
+    }
+    main .works .content .work-steps .step .step-info {
+        padding-left: 1.5rem;
+    }
+    main .works .content .work-steps .step.diff-step {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    main .works .content .work-steps .step.diff-step .step-info {
+        align-items: center;
+        padding-left: 0;
+    }
+    main .works .content .work-steps .step.diff-step .step-info p {
+        text-align: center;
+    }
+    main .works .content .work-steps .step.diff-step .step-img {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+    main .works .content .work-steps .step.diff-step .step-img img {
+        max-width: unset;
+    }
+    main .faq-section .content {
+        flex-direction: row;
+    }
+    main .faq-section .content .faq-title {
+        flex: 0 0 30%;
+        margin-bottom: 0;
+    }
+    main .faq-section .content .faq-accordion {
+        flex: 0 0 50%;
+    }
+    main .cta .content .title {
+        font-size: 35px;
+        padding-bottom: 2rem;
+    }
+}
+
+@media (min-width: 980px) {
+    header .content .nav li {
+        margin: 0 1rem;
+    }
+    main .banner .content h2 {
+        font-size: 60px;
+        padding: 6rem 4rem 1rem;
+    }
+    main .banner .content p {
+        padding: 1.5rem 5rem 4rem;
+    }
+    main .why-decagon .content {
+        padding: 2rem 4rem;
+    }
+    // main .why-decagon .content .stats {
+    //   max-width: 200px;
+    // }
+    main .why-decagon .content .stats .icon {
+        padding-bottom: 0.5rem;
+    }
+    main .why-decagon .content .stats h2 {
+        height: 30px;
+    }
+    main .works .content .work-steps::before {
+        content: "";
+        position: absolute;
+        border-left: 0.5px solid #7b7b7b;
+        top: 11.25%;
+        left: 49.75%;
+        height: 65%;
+    }
+    main .works .content .work-steps .step {
+        padding: 1rem 2rem 1.5rem;
+    }
+    main .works .content .work-steps .step::before {
+        content: "";
+        position: absolute;
+        border: 0.5px solid #7b7b7b;
+        background-color: white;
+        top: 32%;
+        left: 47.95%;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+    }
+    main .works .content .work-steps .step::after {
+        content: "";
+        position: absolute;
+        background-color: #7b7b7b;
+        top: 35%;
+        left: 49.3%;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+    }
+    main .works .content .work-steps .step .step-img img,
+    main .works .content .work-steps .step .step-info p {
+        max-width: 320px;
+    }
+    main .works .content .work-steps .step .step-info {
+        padding-left: 3rem;
+    }
+    main .works .content .work-steps .step.diff-step {
+        padding-top: 5rem;
+    }
+    main .works .content .work-steps .step.diff-step::before {
+        top: 20%;
+    }
+    main .works .content .work-steps .step.diff-step::after {
+        top: 23%;
+    }
+    main .works .content .work-steps .step.diff-step .step-img img {
+        max-width: unset;
+    }
+    main .faq-section {
+        padding: 4rem 0;
+    }
+    main .cta .content {
+        padding: 2rem;
+    }
+    main .cta .content .title {
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 1280px) {
+    main .banner .content h2 {
+        padding: 8rem 10rem 1rem;
+    }
+    main .banner .content p {
+        padding: 1.5rem 18rem 5rem;
+    }
+    main .why-decagon .content {
+        padding: 2rem 10rem;
+    }
+    main .works .content .work-steps .step .step-img img,
+    main .works .content .work-steps .step .step-info p {
+        max-width: 380px;
+    }
+    main .works .content .work-steps {
+        background-size: 6.25%;
+        background-position: 50% 22%;
+    }
+    main .works .content .work-steps .step::before {
+        top: 30%;
+        left: 48.29%;
+    }
+    main .works .content .work-steps .step::after {
+        top: 32.5%;
+    }
+    main .cta .content {
+        padding: 2rem 5rem;
+    }
+    main .cta .content .title {
+        font-size: 45px;
+    }
+}
+
+@media (min-width: 1440px) {
+    main .cta .content {
+        padding: 2rem 10rem;
+    }
+    main .works .content .work-steps .step::before {
+        left: 48.4%;
+    }
+    main .works .content .work-steps .step::after {
+        left: 49.4%;
+    }
+}

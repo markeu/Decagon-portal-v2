@@ -1,0 +1,87 @@
+@import "./_variables";
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: $black;
+}
+
+p {
+    font-size: inherit;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1440px;
+    padding: 0.5rem 1rem;
+}
+
+.btn {
+    background-color: rgb(83, 83, 212);
+    padding: 0.5rem 1.3rem;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn.big-btn {
+    font-size: 20px;
+    padding: 1.2rem 2.5rem;
+}
+
+.btn.btn-link {
+    font-size: 20px;
+    padding: 0;
+    background-color: transparent;
+    color: $green;
+    border-bottom: 1px solid blue;
+    border-radius: 0;
+}
+
+.title {
+    font-size: 20px;
+    font-family: "Muli Bold";
+    padding: 1rem 0;
+    text-align: center;
+}
+
+@media (min-width: 480px) {
+    .content {
+        padding: 1rem;
+        margin: 0 2rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .content {
+        margin: 0 3rem;
+    }
+    p {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 980px) {
+    .content {
+        margin: 0 5rem;
+    }
+    p {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .content {
+        margin: 0 8.5rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    .content {
+        margin: 0 12.5rem;
+    }
+}
