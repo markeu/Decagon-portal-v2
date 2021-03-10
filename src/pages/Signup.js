@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LandingPageHeader from '../components/Header1';
+import LandingPageHeader from '../components/Header';
 
 const Signup = () => {
 
 
   return (
     <>
-      <LandingPageHeader />
-       <div class="flex items-center mt-6">
+      <LandingPageHeader content="Application Portal" />
+      <div class="flex items-center mt-6">
         <div div class="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
           <h1 class="block w-full text-center text-2xl mb-6 font-serif">
             Create Account.

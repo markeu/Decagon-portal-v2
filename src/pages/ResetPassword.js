@@ -1,12 +1,12 @@
 import React from 'react';
-import LandingPageHeader from '../components/Header1';
+import LandingPageHeader from '../components/Header';
 
 
 
 const Home = () => {
   return (
     <>
-      <LandingPageHeader />
+      <LandingPageHeader content="Application Portal" />
       <div class="flex items-center mt-12">
         <div div class="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
           <h1 class="block w-full text-center text-2xl mb-6 font-serif">
