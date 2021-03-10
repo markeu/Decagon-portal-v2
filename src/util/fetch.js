@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const publicFetch = axios.create({
-    baseURL: "https://tradedepotapp.herokuapp.com"
+    baseURL: process.env.REACT_APP_DEV_BASE_URL
 });
 
 export { publicFetch }

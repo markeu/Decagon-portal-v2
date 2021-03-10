@@ -18,6 +18,10 @@ import AppShell from './AppShell';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import FourOFour from './pages/FourOFour';
+import AdminLogin from './pages/admin/Login';
+import AdminInvite from './pages/admin/Invite';
+import AdminForgotPassword from './pages/admin/ForgotPassword';
+import AdminResetPassword from './pages/admin/ResetPassword';
 
 const Registration = lazy(() => import('./pages/Dashboard'))
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -26,7 +30,6 @@ const Account = lazy(() => import('./pages/Account'));
 const Passsword = lazy(() => import('./pages/Password'));
 const Users = lazy(() => import('./pages/Users'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
-
 
 // const LoadingFallback = () => (
 //   <AppShell>
@@ -50,6 +53,15 @@ const UnauthenticatedRoutes = () => (
     </Route>
     <Route path="/resetpassword">
       <ResetPassword/>
+    </Route>
+    <Route exact path="/admin">
+      <AdminLogin />
+    </Route>
+    <Route exact path="/admin/forgotpassword">
+      <AdminForgotPassword />
+    </Route>
+    <Route exact path="/admin/resetpassword">
+      <AdminResetPassword />
     </Route>
     <Route path="*">
       <FourOFour />
@@ -99,6 +111,9 @@ const AppRoutes = () => {
           </AuthenticatedRoute>
           <AdminRoute path="/inventory">
             <Inventory />
+          </AdminRoute>
+          <AdminRoute path="/admin/invite">
+            <AdminInvite />
           </AdminRoute>
           <AuthenticatedRoute path="/account">
             <Account />

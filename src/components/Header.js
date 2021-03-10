@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../images/logo-dark.png';
 
-const MainHeader = () => {
+const MainHeader = ({content}) => {
     return (
       <>
         <div className="w-full top-0 px-10 py-6 bg-gray-100">
@@ -12,7 +12,7 @@ const MainHeader = () => {
               alt="Logo"
             />
             <h1 className="text-3xl text-green-500 font-bold text-primary">
-              Application Portal
+              {content}
             </h1>
           </div>
         </div>
