@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import FormError from '../../components/FormError';
 import FormSuccess from '../../components/FormSuccess';
 import LandingPageHeader from '../../components/Header';
@@ -62,6 +63,9 @@ const ResetPassword = () => {
             Reset Password
           </h1>
           {success && <FormSuccess text={successMessage} />}
+          {success && (
+            <Link to="/admin">Back to login</Link>
+          )}
           {error && <FormError text={errorMessage} />}
           <form className="mb-8 md:flex md:flex-wrap md:justify-between" onSubmit={resetPasswordFormFields.handleSubmit}>
             <div className="flex flex-col mb-4 md:w-full">
