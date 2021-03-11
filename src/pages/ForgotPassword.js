@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
-import LandingPageHeader from '../../components/ApplicationHeader';
+import LandingPageHeader from '../components/Header';
 import FormError from './../components/FormError';
 import FormSuccess from './../components/FormSuccess';
 import { Redirect } from 'react-router-dom';
@@ -55,11 +55,11 @@ const submitCredentials = async e => {
       <div className="flex items-center mt-12">
         <div className="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
           <h1 className="block w-full text-center text-2xl mb-6 font-serif">
-            Reset Password.
+            Forgot Password.
           </h1>
            {signupSuccess && <FormSuccess text="Kindly check your mail" />}
            {signupError && <FormError text={signupError} />}
-          <form class="md:flex md:flex-wrap md:justify-between" action="/" method="post" onSubmit={submitCredentials}>
+          <form class="md:flex md:flex-wrap md:justify-between" onSubmit={submitCredentials}>
             <div class="flex flex-col mb-4 md:w-full">
               <label class="mb-3 text-base font-serif text-gray-700" htmlFor="email">
                 Your e-mail

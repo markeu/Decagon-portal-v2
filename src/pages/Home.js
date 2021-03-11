@@ -137,13 +137,13 @@ const Login = () => {
           </form>
             <p className="text-sm text-center text-gray-800">
               Don’t have an account? <Link to="/signup">
-              <span className="text-sm text-green-500 font-serif"         target="_blank"
+              <span className="text-sm text-green-500 font-serif" target="_blank"
                 rel="noopener noreferrer"
                 href="/signup">Create account</span>
             </Link>
             </p>
           <div className="text-center mt-3">
-            <Link to="/resetPassword">
+            <Link to="/forgotpassword">
               <span className="text-sm text-green-500 font-serif"
                target="_blank"
                rel="noopener noreferrer"

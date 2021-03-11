@@ -29,6 +29,7 @@ const Account = lazy(() => import('./pages/Account'));
 const Passsword = lazy(() => import('./pages/Password'));
 const Users = lazy(() => import('./pages/Users'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
 // const LoadingFallback = () => (
 //   <AppShell>
@@ -50,8 +51,11 @@ const UnauthenticatedRoutes = () => (
     <Route path="/password">
       <Passsword />
     </Route>
+    <Route path="/forgotpassword">
+      <ForgotPassword />
+    </Route>
     <Route path="/resetpassword">
-      <ResetPassword/>
+      <ResetPassword />
     </Route>
     <Route exact path="/admin">
       <AdminLogin />

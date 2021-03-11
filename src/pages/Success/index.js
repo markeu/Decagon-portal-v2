@@ -1,4 +1,4 @@
-import { useHistory  } from "react-router-dom";
+import { Link, useHistory  } from "react-router-dom";
 import "./index.scss";
 
 const Success = () => {
@@ -13,11 +13,11 @@ const Success = () => {
           <p>
           {location.state}
           </p>
-          <div className="back-button">
-              <a href="https://applications.decagonhq.com/">
-                <button className="btn-back">Back to Home</button>
-              </a>
-        </div>
+            <div className="back-button">
+              <Link href="/">
+                <button className="btn-back">Back to login</button>
+              </Link>
+            </div>
         </div>
       </div>
     </main>
