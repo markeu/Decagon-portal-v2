@@ -14,7 +14,7 @@ function PersonalInfo() {
                 First Name
               </label>
               <input
-                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300" type="text"
+                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm" type="text"
                 name="first_name"
                 id="first_name"
                 placeholder="First Name"
@@ -23,7 +23,7 @@ function PersonalInfo() {
             <div className="flex flex-col mb-4 md:w-full">
               <label className="mb-3 text-base font-serif text-gray-700" for="last_name">Last Name</label>
               <input
-                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300" type="text"
+                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm" type="text"
                 name="last_name"
                 id="last_name"
                 placeholder="Last Name"
@@ -35,7 +35,7 @@ function PersonalInfo() {
               </label>
                <select
                   name="gender"
-                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300   text-sm text-gray-500"
+                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 text-sm text-gray-500"
                   value=''
                   onChange=''
                 >
@@ -63,7 +63,7 @@ function PersonalInfo() {
                 Phone Number
               </label>
               <input
-                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 mb-8"
+                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm mb-8"
                 type="text"
                 name="phone_number"
                 id="phone_number"

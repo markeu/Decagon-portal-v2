@@ -1,0 +1,43 @@
+.success-wrapper {
+    height: 100vh;
+    background-image: url("../../images/congrats.gif");
+    background-repeat: no-repeat;
+    background-position-x: center;
+    .success-container {
+        width: 100%;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        padding: 0 1.5rem;
+        h1 {
+            animation: blinking 2s infinite;
+            color: #58a75d;
+            font-family: "Muli Bold";
+            padding: 1rem 0;
+        }
+        p {
+            font-size: 16px;
+            padding: 1rem 0;
+        }
+        @keyframes blinking {
+            0% {
+                color: white;
+            }
+            100% {
+                color: #58a75d;
+            }
+        }
+        .back-button {
+            margin-top: 2rem;
+            .btn-back {
+                background: #58A75D;
+                color: white;
+                border-radius: 5px;
+                padding: 0.7rem 1rem;
+                border: none;
+            }
+        }
+    }
+}

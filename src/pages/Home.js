@@ -1,12 +1,73 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React,{useContext, useState} from 'react';
+import { Link, Redirect} from 'react-router-dom';
+import {AuthContext} from '../context/AuthContext'
 import LandingPageHeader from '../components/Header';
+import { publicFetch } from './../util/fetch';
+import FormError from './../components/FormError';
+import FormSuccess from './../components/FormSuccess';
 
+const defaultState = {
+    email: '',
+    password: '',
+};
+const Login = () => {
+  const authContext = useContext(AuthContext);
+  const [state, setState] = useState(defaultState);
+  const [errors, setErrors] = useState(defaultState);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [successText, setSuccessText] = useState('');
+  const [loginError, setLoginError] = useState(false);
+  const [redirectOnLogin, setRedirectOnLogin] = useState(
+    false
+  );
+  const [loading, setLoading] = useState(false);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-const Home = () => {
+    try {
+      //const errorsFields = validateApplication(state);
+      // if (errorsFields) {
+      //   return setErrors({ ...errors, ...errorsFields });
+      // }
+
+      setLoading(true)
+       const { data } = await publicFetch.post(
+        `user/login`,
+        state
+       );
+      console.log(data);
+      authContext.setAuthState(data);
+      setSuccessText(data.message);
+      setLoginError(false);
+      setLoginSuccess(true);
+      setErrors({
+        email: '',
+        password: '',
+      });
+
+      setTimeout(() => {
+        setRedirectOnLogin(true);
+      }, 700);
+      setLoading(false)
+    } catch (error) {
+      setLoading(false);
+      setLoginSuccess(false);
+      setLoginError(true);
+      setSuccessText('Invalid email/password supplied...');
+      setLoginSuccess(false);
+    }
+  };
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setState({ ...state, [name]: value });
+    if (errors[name]) setErrors({ ...errors, [name]: '' });
+  };
+
   return (
     <>
+      {redirectOnLogin && <Redirect to="/registration/personalInfo" />}
       <LandingPageHeader content="Application Portal" />
       <div class="flex items-center mt-12">
         <div div class="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
@@ -16,7 +77,9 @@ const Home = () => {
           <h6 className="mb-8 text-base font-serif text-gray-600">
             Log in with your data that you entered during registration.
           </h6>
-          <form class="md:flex md:flex-wrap md:justify-between " action="/" method="post">
+          {loginSuccess && <FormSuccess text={successText} />}
+          {loginError && <FormError text={successText} />}
+          <form class="md:flex md:flex-wrap md:justify-between " action="/" method="post" onSubmit={handleSubmit}>
             <div class="flex flex-col mb-4 md:w-full">
               <label class="mb-3 text-base font-serif text-gray-700" for="email">
                 Your e-mail
@@ -26,7 +89,12 @@ const Home = () => {
                 type="email"
                 name="email"
                 id="email"
-                placeholder="name@domain.com"/>
+                placeholder="name@domain.com"
+                value={state.email}
+                onChange={handleChange}
+                style={{ border: errors.email && '1px solid #d07d7d' }}
+              />
+              {errors.email && <p className="form-error">{errors.email}</p>}
             </div>
             <div className="flex flex-col mb-6 md:w-full">
               <label className="mb-3 text-base font-serif text-gray-700" for="password">
@@ -37,7 +105,11 @@ const Home = () => {
                 name="password"
                 id="password"
                 placeholder="at least 8 characters"
-                />
+                value={state.password}
+                onChange={handleChange}
+                style={{ border: errors.password && '1px solid #d07d7d' }}
+              />
+              {errors.password && <p className="form-error">{errors.password}</p>}
               <div>
               <input
                 className="text-sm text-gray-700 mt-6 font-serif mb-6"
@@ -51,7 +123,15 @@ const Home = () => {
               </label>
               </div>
             <button class="block bg-green-500 hover:bg-teal-dark text-white text-base py-2 px-24 rounded font-serif" type="submit">
-                Log in
+                {loading ? (
+                  <div className="lds-roller">
+                    {[...Array(6)].map((_, index) => (
+                      <div key={index.toString()} className="lds-roller-dot"></div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Log in</p>
+                )}
             </button>
           </div>
           </form>
@@ -76,4 +156,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;

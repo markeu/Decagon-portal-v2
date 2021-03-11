@@ -22,6 +22,7 @@ import AdminLogin from './pages/admin/Login';
 import AdminInvite from './pages/admin/Invite';
 import AdminForgotPassword from './pages/admin/ForgotPassword';
 import AdminResetPassword from './pages/admin/ResetPassword';
+import Success from './pages/Success';
 
 const Registration = lazy(() => import('./pages/Dashboard'))
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -41,6 +42,9 @@ const UnauthenticatedRoutes = () => (
   <Switch>
     <Route path="/registration">
       <Registration />
+    </Route>
+    <Route path="/success">
+      <Success />
     </Route>
     <Route path="/signup">
       <Signup />
