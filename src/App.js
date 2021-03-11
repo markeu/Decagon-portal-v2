@@ -13,8 +13,6 @@ import {
 } from './context/AuthContext';
 import { FetchProvider } from './context/FetchContext';
 
-import AppShell from './AppShell';
-
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import FourOFour from './pages/FourOFour';
@@ -40,9 +38,6 @@ const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 
 const UnauthenticatedRoutes = () => (
   <Switch>
-    <Route path="/registration">
-      <Registration />
-    </Route>
     <Route path="/success">
       <Success />
     </Route>
@@ -80,7 +75,7 @@ const AuthenticatedRoute = ({ children, ...rest }) => {
       {...rest}
       render={() =>
         auth.isAuthenticated() ? (
-          <AppShell>{children}</AppShell>
+          [children]
         ) : (
           <Redirect to="/" />
         )
@@ -96,7 +91,7 @@ const AdminRoute = ({ children, ...rest }) => {
       {...rest}
       render={() =>
         auth.isAuthenticated() && auth.isAdmin() ? (
-          <AppShell>{children}</AppShell>
+          {children}
         ) : (
           <Redirect to="/" />
         )
@@ -110,6 +105,9 @@ const AppRoutes = () => {
     <>
       <Suspense fallback={'Loading........'}>
         <Switch>
+          <AuthenticatedRoute path="/registration">
+            <Registration />
+          </AuthenticatedRoute>
           <AuthenticatedRoute path="/dashboard">
             <Dashboard />
           </AuthenticatedRoute>
