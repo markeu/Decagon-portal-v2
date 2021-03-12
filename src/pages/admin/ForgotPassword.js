@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import LandingPageHeader from '../../components/Header';
 import FormError from '../../components/FormError';
 import FormSuccess from '../../components/FormSuccess';
@@ -11,6 +11,9 @@ const ForgotPassword = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [redirect, setRedirect] = useState(
+    false
+    );
   
   const forgotPasswordFormFields = useFormik({
     initialValues: { email: '' },
@@ -30,6 +33,9 @@ const ForgotPassword = () => {
           setSuccess(true)
           setSuccessMessage(data.message)
           setError(false)
+          setTimeout(() => {
+            setRedirect(true);
+          }, 700);
         })
         .catch((error) => {
           const errMsg = error.response.data.error
@@ -41,6 +47,7 @@ const ForgotPassword = () => {
   });
   return (
     <>
+      {redirect && <Redirect to="/admin"/>}
       <LandingPageHeader content="Admin Portal" />
       <div className="flex items-center mt-12">
         <div className="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
