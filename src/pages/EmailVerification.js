@@ -37,6 +37,7 @@ const EmailVerifcation = () => {
             setEmailVerify(false)
             }
         })()
+        //eslint-disable-next-line
     }, [])
 
     return (
