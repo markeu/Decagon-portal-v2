@@ -20,6 +20,7 @@ import AdminLogin from './pages/admin/Login';
 import AdminInvite from './pages/admin/Invite';
 import AdminForgotPassword from './pages/admin/ForgotPassword';
 import AdminResetPassword from './pages/admin/ResetPassword';
+import EmailVerifcation from './pages/EmailVerification';
 import Success from './pages/Success';
 
 const Registration = lazy(() => import('./pages/Dashboard'))
@@ -39,23 +40,26 @@ const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
 const UnauthenticatedRoutes = () => (
   <Switch>
-    <Route path="/success">
+    <Route exact path="/success">
       <Success />
     </Route>
-    <Route path="/signup">
+    <Route exact path="/signup">
       <Signup />
     </Route>
     <Route exact path="/">
       <Home />
     </Route>
-    <Route path="/password">
+    <Route exact path="/password">
       <Passsword />
     </Route>
-    <Route path="/forgotpassword">
+    <Route exact path="/forgotpassword">
       <ForgotPassword />
     </Route>
-    <Route path="/resetpassword">
+    <Route exact path="/resetpassword">
       <ResetPassword />
+    </Route>
+    <Route exact path="/email-verification">
+      <EmailVerifcation />
     </Route>
     <Route exact path="/admin">
       <AdminLogin />

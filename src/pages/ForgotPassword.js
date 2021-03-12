@@ -6,11 +6,10 @@ import FormSuccess from './../components/FormSuccess';
 import { Redirect } from 'react-router-dom';
 import { publicFetch } from './../util/fetch';
 
-const defaultState = {
-  email: ''
-};
-
 const ForgotPassword = () => {
+  const defaultState = {
+    email: ''
+  };
   const [state, setState] = useState(defaultState);
   const [errors, setErrors] = useState(defaultState);
   const [signupSuccess, setSignupSuccess] = useState();
@@ -20,9 +19,8 @@ const ForgotPassword = () => {
   );
   const [loginLoading, setLoginLoading] = useState(false);
 
-const submitCredentials = async e => {
-     e.preventDefault()
-
+  const submitCredentials = async e => {
+    e.preventDefault()
     try {
       setLoginLoading(true)
       const { data } = await publicFetch.post(
