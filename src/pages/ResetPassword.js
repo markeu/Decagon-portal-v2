@@ -66,7 +66,7 @@ const Home = () => {
           {success && (
             <div className="back-button">
               <Link to="/">
-                <button className="btn-back">Back to login</button>
+                Back to login
               </Link>
             </div>
           )}
