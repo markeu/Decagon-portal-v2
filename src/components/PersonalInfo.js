@@ -1,5 +1,12 @@
 import React from 'react'
 
+const defaultState = {
+    firstName: '',
+    lastName: '',
+    gender: '',
+    dob: '',
+    phoneNumber: ''
+  };
 function PersonalInfo() {
   return (
     <div className="border border-gray-400  h-screen rounded-md bg-white">
