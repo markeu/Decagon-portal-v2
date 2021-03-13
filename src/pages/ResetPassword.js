@@ -64,11 +64,11 @@ const Home = () => {
           </h1>
           {success && <FormSuccess text={successMessage} />}
           {success && (
-            <div className="back-button">
-              <Link to="/">
-                Back to login
-              </Link>
-            </div>
+            <Link to="/">
+              <span className="text-md text-green-500 font-serif"
+                target="_blank"
+                rel="noopener noreferrer">Back to login</span>
+            </Link>
           )}
           {error && <FormError text={errorMessage} />}
           <form className="mb-8 md:flex md:flex-wrap md:justify-between" onSubmit={resetPasswordFormFields.handleSubmit}>
