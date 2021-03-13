@@ -6,84 +6,102 @@ import FormError from './../components/FormError';
 import FormSuccess from './../components/FormSuccess';
 import { publicFetch } from './../util/fetch';
 import '../css/lds-roller.scss';
+import { useFormik } from 'formik';
 
-const defaultState = {
-    email: '',
-    title: '',
-    firstName: '',
-    lastName: ''
-  };
 const Signup = () => {
   const authContext = useContext(AuthContext);
-  const [state, setState] = useState(defaultState);
-  const [errors, setErrors] = useState(defaultState);
-  const [signupSuccess, setSignupSuccess] = useState();
-  const [signupError, setSignupError] = useState();
-  const [redirectOnLogin, setRedirectOnLogin] = useState(
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [signupSuccessMsg, setSignupSuccessMsg] = useState('');
+  const [signupError, setSignupError] = useState(false);
+  const [signupErrorMsg, setSignupErrorMsg] = useState('');
+  const [redirectOnSignup, setRedirectOnSignup] = useState(
     false
   );
-  const [loginLoading, setLoginLoading] = useState(false);
-
-  const submitCredentials = async e => {
-     e.preventDefault()
-    try {
-      setLoginLoading(true)
-      const { data } = await publicFetch.post(
-        `/user/signup`,
-        state
-      );
-      authContext.setAuthState(data);
-      setSignupSuccess(data.message);
-      setSignupError('');
-
-      setTimeout(() => {
-        setRedirectOnLogin(true);
-      }, 1500);
-    } catch (error) {
-      setLoginLoading(false);
-      setSignupError(error.message);
-      setSignupSuccess('');
-    }
-  };
-
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setState({ ...state, [name]: value });
-    if (errors[name]) setErrors({ ...errors, [name]: '' });
-  };
+  const signupFormFields = useFormik({
+    initialValues: { email: '', title: '', firstName: '', lastName: '' },
+    validate: (values) => {
+      const errors = {};
+      if (!values.title) {
+        errors.title = 'Title is required!';
+      }
+      if (!values.email) {
+        errors.email = 'Email address is required!';
+      }
+      if (!values.lastName) {
+        errors.lastName = 'Last name is required!';
+      }
+      if (!values.firstName) {
+        errors.firstName = 'First name is required!';
+      }
+      
+      return errors;
+    },
+    onSubmit: async (values, { setSubmitting }) => {
+      await publicFetch
+        .post(`/user/signup`,
+          values
+        )
+        .then(({data}) => {
+          authContext.setAuthState(data);
+          setSubmitting(false);
+          authContext.setAuthState(data);
+          setSignupSuccessMsg(data.message);
+          setSignupSuccess(true)
+          setSignupError(false);
+          setSignupErrorMsg("");
+          signupFormFields.resetForm()
+          setTimeout(() => {
+            setRedirectOnSignup(true);
+          }, 700);
+        })
+        .catch((error) => {
+          const errMsg = error.response.data.error
+          setSignupError(true)
+          setSignupErrorMsg(errMsg);
+          setSignupSuccessMsg('');
+          setSignupSuccess(false);
+        });
+    },
+  });
 
   return (
     <>
-      {redirectOnLogin && <Redirect to="/success" />}
+      {redirectOnSignup && <Redirect to="/success" />}
       <LandingPageHeader content="Application Portal" />
-      <div class="flex items-center mt-6">
-        <div div class="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
-          <h1 class="block w-full text-center text-2xl mb-6 font-serif">
+      <div className="flex items-center mt-6">
+        <div className="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
+          <h1 className="block w-full text-center text-2xl mb-6 font-serif">
             Create Account.
           </h1>
-          {signupSuccess && <FormSuccess text="An email is sent to you mail, kindly verify" />}
-          {signupError && <FormError text={signupError} />}
-          <form class="mb-4 md:flex md:flex-wrap md:justify-between" action="/" method="post" onSubmit={submitCredentials}>
-            <div class="flex flex-col mb-4 md:w-full">
-              <label class="mb-3 text-base font-serif text-gray-700" for="title">
+          {signupSuccess && <FormSuccess text={signupSuccessMsg} />}
+          {signupError && <FormError text={signupErrorMsg} />}
+          <form className="mb-4 md:flex md:flex-wrap md:justify-between" onSubmit={signupFormFields.handleSubmit}>
+            <div className="flex flex-col mb-4 md:w-full">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="title">
                 Title
               </label>
-               <select
-                  name="title"
-                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300"
-                  value={state.title}
-                  onChange={handleChange}
-                  style={{ border: errors.title && "1px solid #d07d7d" }}
+              <select
+                name="title"
+                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300"
+                value={signupFormFields.values.title}
+                onChange={signupFormFields.handleChange}
+                onBlur={signupFormFields.handleBlur}
+                style={{ border: signupFormFields.errors.title && "1px solid #d07d7d" }}
               >
-                {errors.title && <p className="form-error">{errors.title}</p>}
+                
                   <option value="" >Choose your title</option>
                   <option value="Mr">Mr</option>
                   <option value="Mrs">Mrs</option>
                   <option value="Miss">Miss</option>
-                </select>
+              </select>
+              { signupFormFields.errors.title &&
+                signupFormFields.errors.title &&
+                signupFormFields.errors.title && (
+                <span className="text-base font-serif text-red-700 mt-2">{signupFormFields.errors.title}</span>
+              )}
             </div>
             <div className="flex flex-col mb-6 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" for="first_name">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="first_name">
                 First Name
               </label>
               <input
@@ -91,60 +109,85 @@ const Signup = () => {
                 name="firstName"
                 id="first_name"
                 placeholder="First Name"
-                value={state.firstName}
-                onChange={handleChange}
-                style={{ border: errors.firstName && "1px solid #d07d7d" }}
+                value={signupFormFields.values.firstName}
+                onChange={signupFormFields.handleChange}
+                onBlur={signupFormFields.handleBlur}
+                style={{ border: signupFormFields.errors.firstName && "1px solid #d07d7d" }}
               />
-              {errors.firstName && <p className="form-error">{errors.firstName}</p>}
+              { signupFormFields.errors.firstName &&
+                  signupFormFields.errors.firstName &&
+                  signupFormFields.errors.firstName && (
+                  <span className="text-base font-serif text-red-700 mt-2">{signupFormFields.errors.firstName}</span>
+                )}
             </div>
             <div className="flex flex-col mb-6 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" for="last_name">Last Name</label>
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="last_name">Last Name</label>
               <input
                 className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300" type="text"
                 name="lastName"
                 id="last_name"
                 placeholder="Last Name"
-                value={state.lastName}
-                onChange={handleChange}
-                style={{ border: errors.lastName && "1px solid #d07d7d" }}
+                value={signupFormFields.values.lastName}
+                onChange={signupFormFields.handleChange}
+                onBlur={signupFormFields.handleBlur}
+                style={{ border: signupFormFields.errors.lastName && "1px solid #d07d7d" }}
               />
-               {errors.lastName && <p className="form-error">{errors.lastName}</p>}
+              { signupFormFields.errors.lastName &&
+                  signupFormFields.errors.lastName &&
+                  signupFormFields.errors.lastName && (
+                  <span className="text-base font-serif text-red-700 mt-2">{signupFormFields.errors.lastName}</span>
+                )}
             </div>
-            <div class="flex flex-col mb-4 md:w-full">
-              <label class="mb-3 text-base font-serif text-gray-700" for="email">
+            <div className="flex flex-col mb-4 md:w-full">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="email">
                 E-mail
               </label>
               <input
-                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 mb-8"
+                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300"
                 type="email"
                 name="email"
                 id="email"
                 placeholder="name@domain.com"
-                value={state.email}
-                onChange={handleChange}
-                style={{ border: errors.email && "1px solid #d07d7d" }}
+                value={signupFormFields.values.email}
+                onChange={signupFormFields.handleChange}
+                onBlur={signupFormFields.handleBlur}
+                style={{ border: signupFormFields.errors.email && "1px solid #d07d7d" }}
               />
-              {errors.email && <p className="form-error">{errors.email}</p>}
-              <button class="block bg-green-500 hover:bg-teal-dark text-white text-base py-2 px-3 rounded font-serif" type="submit">
-                 {loginLoading ? (
-                  <div className="lds-roller">
-                    {[...Array(6)].map((_, index) => (
-                    <div key={index.toString()} className="lds-roller-dot"></div>
-                    ))}
-                  </div>
-                    ) : (
-                  <p>Create Account</p>
-                  )}
-              </button>
+              { signupFormFields.errors.email &&
+                  signupFormFields.errors.email &&
+                  signupFormFields.errors.email && (
+                  <span className="text-base font-serif text-red-700 mt-2">{signupFormFields.errors.email}</span>
+                )}
             </div>
+            <button className="block bg-green-500 hover:bg-teal-dark text-white text-base p-2 rounded font-serif md:w-full mt-4" 
+              type="submit"
+              style={{
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {signupFormFields.isSubmitting ? (
+                <div className="lds-roller">
+                  {[...Array(6)].map((_, index) => (
+                    <div
+                      key={index.toString()}
+                      className="lds-roller-dot"
+                    ></div>
+                  ))}
+                </div>
+              ) : (
+                <p>Create Account</p>
+              )}
+            </button>
           </form>
             <p className="text-sm text-center text-gray-800">
             Already have an account?
-          <Link to="/">
-              <span className="text-sm text-green-500 font-serif"
-                target="_blank"
-                rel="noopener noreferrer"> Login</span>
-          </Link>
+            <Link to="/">
+                <span className="text-sm text-green-500 font-serif"
+                  target="_blank"
+                  rel="noopener noreferrer"> Login</span>
+            </Link>
           </p>
         </div>
       </div>

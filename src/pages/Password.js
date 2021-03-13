@@ -4,68 +4,82 @@ import FormError from './../components/FormError';
 import FormSuccess from './../components/FormSuccess';
 import { Redirect } from 'react-router-dom';
 import { publicFetch } from './../util/fetch';
-
-const defaultState = {
-  confirmPassword: "",
-  password: ""
-};
+import { useFormik } from 'formik';
 
 const Home = () => {
-
-  const [state, setState] = useState(defaultState);
-  const [errors, setErrors] = useState(defaultState);
-  const [signupSuccess, setSignupSuccess] = useState();
-  const [signupError, setSignupError] = useState();
-  const [redirectOnLogin, setRedirectOnLogin] = useState(
+  const [passwordSuccess, setPassswordSuccess] = useState(false);
+  const [passwordSuccessMsg, setPassswordSuccessMsg] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
+  const [redirectOnPassword, setRedirectOnPassword] = useState(
     false
-  );
-  const [loginLoading, setLoginLoading] = useState(false);
+    );
+  
+  const url = new URL(window.location.href).search
+  const applicant_id = new URLSearchParams(url).get('applicant_id')
 
-   const submitCredentials = async e => {
-     e.preventDefault()
-
-    try {
-      setLoginLoading(true)
-      const { data } = await publicFetch.post(
-        `password`,
-          state, { params: {
-          applicant_id: "n71c600u31"
+  const passwordFormFields = useFormik({
+    initialValues: { password: '', confirmPassword: '' },
+    validate: (values) => {
+      const errors = {};
+      if (!values.password) {
+        errors.password = 'Password is required!';
+      }
+      if (!values.confirmPassword) {
+        errors.confirmPassword = 'Confirm password is required!';
+      }
+      if (values.password && values.password.length < 8) {
+        errors.password = 'Password must be at eight characters long';
+      }
+      if (values.password && values.confirmPassword) {
+        if (values.password !== values.confirmPassword) {
+          errors.confirmPassword = 'Password does not match';
+        }
+      }
+      return errors;
+    },
+    onSubmit: async (values, { setSubmitting }) => {
+      await publicFetch
+        .post(`password`,
+          values, { params: {
+          applicant_id: applicant_id
         }}
-      );
-
-      setSignupSuccess(data.message);
-      setSignupError('');
-
-      setTimeout(() => {
-        setRedirectOnLogin(true);
-      }, 700);
-    } catch (error) {
-      setLoginLoading(false);
-      setSignupError(error.message);
-      setSignupSuccess('');
-    }
-   };
-
-   const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setState({ ...state, [name]: value });
-    if (errors[name]) setErrors({ ...errors, [name]: '' });
-  };
+        )
+        .then(({data}) => {
+          setSubmitting(false);
+          setPassswordSuccessMsg(data.message);
+          setPassswordSuccess(true)
+          setPasswordError(false);
+          setPasswordErrorMsg('');
+          passwordFormFields.resetForm()
+          setTimeout(() => {
+            setRedirectOnPassword(true);
+          }, 700);
+        })
+        .catch((error) => {
+          const errMsg = error.response.data.error
+          setPasswordError(true)
+          setPasswordErrorMsg(errMsg)
+          setPassswordSuccessMsg('');
+          setPassswordSuccess(false);
+        });
+    },
+  });
 
   return (
     <>
-      {redirectOnLogin && <Redirect to="/"/>}
+      {redirectOnPassword && <Redirect to="/"/>}
       <LandingPageHeader content="Application Portal" />
-      <div class="flex items-center mt-12">
-        <div div class="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
-          <h1 class="block w-full text-center text-2xl mb-6 font-serif">
+      <div className="flex items-center mt-12">
+        <div className="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
+          <h1 className="block w-full text-center text-2xl mb-6 font-serif">
             Create Password.
           </h1>
-          {signupSuccess && <FormSuccess text="Password created" />}
-          {signupError && <FormError text={signupError} />}
-          <form class="mb-8 md:flex md:flex-wrap md:justify-between" action="/" method="post" onSubmit={submitCredentials}>
-            <div class="flex flex-col mb-4 md:w-full">
-              <label class="mb-3 text-base font-serif text-gray-700" for="password">
+          {passwordSuccess && <FormSuccess text={passwordSuccessMsg} />}
+          {passwordError && <FormError text={passwordErrorMsg} />}
+          <form className="mb-8 md:flex md:flex-wrap md:justify-between" onSubmit={passwordFormFields.handleSubmit}>
+            <div className="flex flex-col mb-4 md:w-full">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="password">
                 Password
               </label>
               <input
@@ -73,14 +87,20 @@ const Home = () => {
                 type="password"
                 name="password"
                 id="password"
-                value={state.password}
-                onChange={handleChange}
-                style={{ border: errors.password && "1px solid #d07d7d" }}
+                value={passwordFormFields.values.password}
+                onChange={passwordFormFields.handleChange}
+                onBlur={passwordFormFields.handleBlur}
+                placeholder="Password"
+                style={{ border: passwordFormFields.errors.password && "1px solid #d07d7d" }}
               />
-              {errors.password && <p className="form-error">{errors.password}</p>}
+              { passwordFormFields.errors.password &&
+               passwordFormFields.errors.password &&
+               passwordFormFields.errors.password && (
+                <span className="text-base font-serif text-red-700 mt-2">{passwordFormFields.errors.password}</span>
+              )}
             </div>
             <div className="flex flex-col mb-6 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" htmlfor="password">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="confirmPassword">
                 Confirm Password
               </label>
               <input
@@ -88,22 +108,39 @@ const Home = () => {
                 type="password"
                 name="confirmPassword"
                 id="confirmPassword"
-                value={state.confirmPassword}
-                onChange={handleChange}
-                style={{ border: errors.confirmPassword && "1px solid #d07d7d" }}
-                />
-            <button class="mt-6 block bg-green-500 hover:bg-teal-dark text-white text-base py-2 px-3 rounded font-serif" type="submit">
-              {loginLoading ? (
-                  <div className="lds-roller">
-                    {[...Array(6)].map((_, index) => (
-                    <div key={index.toString()} className="lds-roller-dot"></div>
-                    ))}
-                  </div>
-                    ) : (
-                  <p>Create Password</p>
-                  )}
+                value={passwordFormFields.values.confirmPassword}
+                onChange={passwordFormFields.handleChange}
+                onBlur={passwordFormFields.handleBlur}
+                placeholder="Confirm Password"
+                style={{ border: passwordFormFields.errors.confirmPassword && "1px solid #d07d7d" }}
+              />
+              { passwordFormFields.errors.confirmPassword &&
+               passwordFormFields.errors.confirmPassword &&
+               passwordFormFields.errors.confirmPassword && (
+                <span className="text-base font-serif text-red-700 mt-2">{passwordFormFields.errors.confirmPassword}</span>
+              )}
+            </div>  
+            <button className="block bg-green-500 hover:bg-teal-dark text-white text-base p-2 rounded font-serif md:w-full" 
+              type="submit"
+              style={{
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {passwordFormFields.isSubmitting ? (
+                <div className="lds-roller">
+                  {[...Array(6)].map((_, index) => (
+                    <div
+                      key={index.toString()}
+                      className="lds-roller-dot"
+                    ></div>
+                  ))}
+                </div>
+              ) : (
+                <p>Create Password</p>
+              )}
             </button>
-          </div>
           </form>
         </div>
       </div>
