@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react';
 import LandingPageHeader from '../components/Header';
 import FormError from './../components/FormError';
 import FormSuccess from './../components/FormSuccess';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { publicFetch } from './../util/fetch';
 
 const EmailVerifcation = () => {
@@ -10,7 +10,7 @@ const EmailVerifcation = () => {
     const applicant_id = new URLSearchParams(url).get('applicant_id')
 
     const [emailVerifyMessage, setEmailVerifyMessage] = useState('');
-    const [emailVerify, setEmailVerify] = useState(true);
+    const [emailVerify, setEmailVerify] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [error, setError] = useState(false);
     const [redirectOnEmailVerification, setRedirectOnEmailVerification] = useState(false);
@@ -26,7 +26,7 @@ const EmailVerifcation = () => {
                 setError(false)
                 setTimeout(() => {
                     setRedirectOnEmailVerification(true)
-                }, 1500);
+                }, 700);
         
             }catch(error){
             const err = error.response.data.error
@@ -47,6 +47,13 @@ const EmailVerifcation = () => {
             <div className="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
                 {emailVerify && <FormSuccess text={emailVerifyMessage} />}
                 {error && <FormError text={errorMessage} />}
+                {error && 
+                    <Link to="/">
+                        <span className="text-md text-green-500 font-serif"
+                            target="_blank"
+                            rel="noopener noreferrer">Back to login</span>
+                    </Link>
+                }
             </div>
         </>
     );    
