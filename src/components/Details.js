@@ -36,7 +36,7 @@ function Details() {
         </p>
         <div className="absolute top-3 right-0 h-6 mr-12">
           <p className="font-semibold mb-2">Application Status :</p>
-          <p className="text-green-400 font-medium">Application is being reviewed</p>
+          <p className="text-green-400 font-medium">{state.status}</p>
         </div>
         <div className="w-full bg-white mt-32 ml-8">
           <TabDetails name='First Name' title={state.firstName} />
