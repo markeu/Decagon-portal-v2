@@ -3,97 +3,87 @@ import {  Redirect} from 'react-router-dom';
 import { publicFetch } from './../util/fetch';
 import FormError from './../components/FormError';
 import FormSuccess from './../components/FormSuccess';
-import validateApplication from '../util/personal';
 import '../css/lds-roller.scss';
+import { useFormik } from 'formik';
 
-
-const defaultState = {
-    firstName: '',
-    lastName: '',
-    gender: '',
-    dob: '',
-    phoneNumber: ''
-}
 function PersonalInfo() {
-  const [state, setState] = useState(defaultState)
-  const [errors, setErrors] = useState(defaultState);
-  const [isLoading, setIsLoading] = useState(false)
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  const [loginSuccessMsg, setLoginSuccessMsg] = useState('');
-  const [loginError, setLoginError] = useState(false);
-  const [loginErrorMsg, setLoginErrorMsg] = useState('');
-  const [redirectOnLogin, setRedirectOnLogin] = useState(
+  const [state, setState] = useState({firstName: '', lastName: ''})
+  const [onSuccess, setOnSuccess] = useState(false);
+  const [onSuccessMsg, setOnSuccessMsg] = useState('');
+  const [onError, setOnError] = useState(false);
+  const [onErrorMsg, setOnErrorMsg] = useState('');
+  const [redirectOnSuccess, setRedirectOnSuccess] = useState(
     false
   );
 
   useEffect(() => {
-     const usersdata = JSON.parse(localStorage.getItem('userInfo'));
-     setState({
+    const usersdata = JSON.parse(localStorage.getItem('userInfo'));
+    setState({
       firstName: usersdata.data.firstName,
       lastName: usersdata.data.lastName,
-     })
+    })
   }, [])
 
-  const handleSubmit = async (e) => {
-    const errorsFields = validateApplication(state);
+  const formFields = useFormik({
+    initialValues: {
+      gender: '',
+      phoneNumber: '',
+      dob: ''
+    },
+    validate: (values) => {
+      const errors = {};
+      if (!values.gender) {
+        errors.gender = 'Gender is required!';
+      }
+      if (!values.phoneNumber) {
+        errors.phoneNumber = 'Phone number is required!';
+      }
+      if (!values.dob) {
+        errors.dob = 'Date of birth is required!';
+      }
 
-    if (errorsFields) {
-        return setErrors({ ...errors, ...errorsFields });
-    }
-    e.preventDefault()
-
-    setIsLoading(true)
-
-    const datas = {
-      gender: state.gender,
-      dob: state.dob,
-      phone_number: state.phoneNumber
-    }
-
+      return errors;
+    },
+    onSubmit: async (values, { setSubmitting }) => {
       await publicFetch
         .post(`/user/personal-info`,
-          datas
+          values
         )
-        .then(({data}) => {
-          console.log(data, 'successsfully');
-          setLoginSuccessMsg(data.message);
-          setLoginSuccess(true)
-          setLoginError(false);
-          setLoginErrorMsg('');
+        .then(({ data }) => {
+          console.log(data, 'i got back');
+          setSubmitting(false);
+          setOnSuccessMsg(data.message);
+          setOnSuccess(true)
+          setOnError(false);
+          setOnErrorMsg("");
+          formFields.resetForm()
           setTimeout(() => {
-            setRedirectOnLogin(true);
+            setRedirectOnSuccess(true);
           }, 700);
         })
         .catch((error) => {
-          console.log(error);
-          setIsLoading(false)
-          setLoginError(true)
-          setLoginErrorMsg(error.message)
-          setLoginSuccessMsg('');
-          setLoginSuccess(false);
+          const errMsg = error.response.data.error
+          setOnError(true)
+          setOnErrorMsg(errMsg);
+          setOnSuccessMsg('');
+          setOnSuccess(false);
         });
-  }
-
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setState({ ...state, [name]: value });
-    if (errors[name]) setErrors({ ...errors, [name]: '' });
-  };
+    },
+  });
 
   return (
   <>
-    {redirectOnLogin && <Redirect to="/registration/addressInfo" />}
+    {redirectOnSuccess && <Redirect to="/registration/addressInfo" />}
     <div className="border border-gray-400  h-screen rounded-md bg-white">
       <p className="m-12 font-base text-2xl">
         Personal Information
       </p>
         <div className="w-full bg-white m-3 md:max-w-sm md:mx-auto">
-        {loginSuccess && <FormSuccess text={loginSuccessMsg} />}
-          {loginError && <FormError text={loginErrorMsg} />}
-        <form class="mb-4 md:flex md:flex-wrap md:justify-between"
-          action="/" method="post" onSubmit={handleSubmit}>
+        {onSuccess && <FormSuccess text={onSuccessMsg} />}
+        {onError && <FormError text={onErrorMsg} />}
+        <form className="mb-4 md:flex md:flex-wrap md:justify-between" onSubmit={formFields.handleSubmit}>
            <div className="flex flex-col mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" for="first_name">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="first_name">
                 First Name
               </label>
               <input
@@ -102,42 +92,46 @@ function PersonalInfo() {
                 id="first_name"
                 placeholder="First Name"
                 value={state.firstName}
-                onChange=''
-                onBlur=''
-                // style={{ border: loginFormFields.errors.email && "1px solid #d07d7d" }}
-                />
+                disabled={true}
+              />
             </div>
             <div className="flex flex-col mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" for="last_name">Last Name</label>
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="last_name">Last Name</label>
               <input
                 className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm" type="text"
                 name="lastName"
                 id="last_name"
                 placeholder="Last Name"
                 value={state.lastName}
-                onChange=''
-                style={{ border: errors.lastName && '1px solid #d07d7d' }}/>
-                {errors.lastName && <p className="form-error">{errors.lastName}</p>}
+                disabled={true}
+              />
             </div>
-            <div class="flex flex-col mb-4 md:w-full">
-              <label class="mb-3 text-base font-serif text-gray-700" for="title">
+            <div className="flex flex-col mb-4 md:w-full">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="title">
                 Gender
               </label>
                <select
                   name="gender"
                   className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 text-sm text-gray-500"
-                  onChange={handleChange}
-                  style={{ border: errors.gender && '1px solid #d07d7d' }}
+                  value={formFields.values.gender}
+                  onChange={formFields.handleChange}
+                  onBlur={formFields.handleBlur}
+                  style={{ border: formFields.errors.gender && "1px solid #d07d7d" }}
               >
-                {errors.gender && <p className="form-error">{errors.gender}</p>}
-                  <option value="" >Choose your gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
+                <option value="" >Choose your gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              { formFields.errors.gender &&
+                formFields.errors.gender &&
+                formFields.errors.gender && (
+              <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.gender}
+              </span>
+              )}
             </div>
             <div className="flex flex-col mb-6 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" for="dob">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="dob">
                 Date of Birth
               </label>
               <input
@@ -147,53 +141,62 @@ function PersonalInfo() {
                 name="dob"
                 id="dob"
                 placeholder="Pick a date"
-                onChange={handleChange}
-                value={state.dob}
-                style={{ border: errors.dob && '1px solid #d07d7d' }}
+                value={formFields.values.dob}
+                onChange={formFields.handleChange}
+                onBlur={formFields.handleBlur}
+                style={{ border: formFields.errors.dob && "1px solid #d07d7d" }}
               />
-              {errors.dob && <p className="form-error">{errors.dob}</p>}
+              { formFields.errors.dob &&
+                formFields.errors.dob &&
+                formFields.errors.dob && (
+              <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.dob}
+              </span>
+              )}
             </div>
-            <div class="flex flex-col mb-4 md:w-full">
-              <label class="mb-3 text-base font-serif text-gray-700" for="email">
+            <div className="flex flex-col mb-4 md:w-full">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="phoneNumberr">
                 Phone Number
               </label>
               <input
-                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm mb-8"
+                className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm"
                 type="text"
                 name="phoneNumber"
                 id="phone_number"
                 placeholder="Phone Number"
-                onChange={handleChange}
-                value={state.phoneNumber}
-                style={{ border: errors.phoneNumber && '1px solid #d07d7d' }}
+                value={formFields.values.phoneNumber}
+                onChange={formFields.handleChange}
+                onBlur={formFields.handleBlur}
+                style={{ border: formFields.errors.phoneNumber && "1px solid #d07d7d" }}
               />
-              {errors.phoneNumber && <p className="form-error">{errors.phoneNumber}</p>}
-            <div className="flex justify-between mt-3">
-              <button className="block bg-green-500 hover:bg-teal-dark text-white w-2/5 h-8 text-sm rounded font-serif "
+              { formFields.errors.phoneNumber &&
+                formFields.errors.phoneNumber &&
+                formFields.errors.phoneNumber && (
+              <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.phoneNumber}
+              </span>
+              )}
+            </div>
+            <div className="flex flex-col mb-4 md:w-full">
+              <div className="flex justify-between mt-3">
+                <button className="block bg-green-500 hover:bg-teal-dark text-white w-2/5 h-8 text-sm rounded font-serif "
                   type="submit">
-                  {isLoading ? (
+                  Save As Draft
+                </button>
+                <button className="block bg-green-500 hover:bg-teal-dark text-white text-sm   w-2/5 h-8 rounded font-serif"
+                  type="submit">
+                  {formFields.isSubmitting ? (
                     <div className="lds-roller">
                       {[...Array(6)].map((_, index) => (
-                        <div key={index.toString()} className="lds-roller-dot"></div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p>Save As Draft</p>
-                  )}
-              </button>
-              <button className="block bg-green-500 hover:bg-teal-dark text-white text-sm w-2/5 h-8 rounded font-serif"
-                  type="submit">
-                  {isLoading ? (
-                    <div className="lds-roller">
-                      {[...Array(6)].map((_, index) => (
-                        <div key={index.toString()} className="lds-roller-dot"></div>
+                        <div
+                          key={index.toString()}
+                          className="lds-roller-dot"
+                        ></div>
                       ))}
                     </div>
                   ) : (
                     <p>Save And Continue</p>
-                  )}
-               </button>
-             </div>
+                )}
+                </button>
+              </div>
             </div>
           </form>
         </div>
