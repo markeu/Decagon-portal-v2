@@ -25,18 +25,12 @@ import Success from './pages/Success';
 
 const Registration = lazy(() => import('./pages/Dashboard'))
 const Dashboard = lazy(() => import('./pages/Dashboard'));
-const Inventory = lazy(() => import('./pages/ResetPassword'));
-const Account = lazy(() => import('./pages/Account'));
+
 const Passsword = lazy(() => import('./pages/Password'));
 const Users = lazy(() => import('./pages/Users'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
-
-// const LoadingFallback = () => (
-//   <AppShell>
-//     <div className="p-4">Loading...</div>
-//   </AppShell>
-// );
+const Details = lazy(() => import('./pages/Details'))
 
 const UnauthenticatedRoutes = () => (
   <Switch>
@@ -113,21 +107,19 @@ const AppRoutes = () => {
     <>
       <Suspense fallback={'Loading........'}>
         <Switch>
+          <AuthenticatedRoute path="/details">
+            <Details/>
+          </AuthenticatedRoute>
           <AuthenticatedRoute path="/registration">
             <Registration />
           </AuthenticatedRoute>
           <AuthenticatedRoute path="/dashboard">
             <Dashboard />
           </AuthenticatedRoute>
-          <AdminRoute path="/inventory">
-            <Inventory />
-          </AdminRoute>
+
           <AdminRoute path="/admin/invite">
             <AdminInvite />
           </AdminRoute>
-          <AuthenticatedRoute path="/account">
-            <Account />
-          </AuthenticatedRoute>
           <AuthenticatedRoute path="/users">
             <Users />
           </AuthenticatedRoute>

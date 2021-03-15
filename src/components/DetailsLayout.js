@@ -1,11 +1,11 @@
 import React from 'react'
-import Sidebar from './Sidebar';
+import PageDashboard from './PageDashboard';
 
 
-function DashboardLayout({children}) {
+function DetailsLayout({children}) {
  return (
     <div className="items-start justify-start w-full h-full bg-gradient-to-b from-green-200 via-white to-green-100 md:flex">
-      <Sidebar />
+      <PageDashboard />
       <div className="grid w-3/4 overflow-y-auto bg-gray-100">
         <div className='border border-gray-400 mb-4 font-bold bg-gray-200 font-muli flex flex-row-reverse'>
           <button
@@ -34,7 +34,7 @@ function DashboardLayout({children}) {
 
 }
 
-export default DashboardLayout
+export default DetailsLayout
 
 
 

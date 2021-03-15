@@ -1,9 +1,23 @@
-import React, { useState } from 'react'
+import React,{useState} from 'react';
+import { Redirect } from 'react-router-dom';
+
+import FormError from './../components/FormError';
+import FormSuccess from './../components/FormSuccess';
+import { publicFetch } from './../util/fetch';
+import '../css/lds-roller.scss';
 
 function Other() {
 
   const [state, setState] = useState({hear_about_us: "", decadev: ""});
-  const [isOther, setIsOther] = useState({ other: false, decadev: false});
+  const [isOther, setIsOther] = useState({ other: false, decadev: false });
+  const [isLoading, setIsLoading] = useState(false)
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [loginSuccessMsg, setLoginSuccessMsg] = useState('');
+  const [loginError, setLoginError] = useState(false);
+  const [loginErrorMsg, setLoginErrorMsg] = useState('');
+  const [redirectOnLogin, setRedirectOnLogin] = useState(
+    false
+  );
 
   const handleSelect = (event) => {
     const { name, value } = event.target;
@@ -19,14 +33,50 @@ function Other() {
       setState({ ...state, [name]: value});
     }
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    setIsLoading(true)
+      await publicFetch
+        .post(`/user/other-info`,
+          state
+        )
+        .then(async() => {
+          await publicFetch.post(`/user/submit`)
+          .then(({ data }) => {
+          setLoginSuccessMsg(data.message);
+          setLoginSuccess(true)
+          setLoginError(false);
+          setLoginErrorMsg('');
+          setTimeout(() => {
+            setRedirectOnLogin(true);
+          }, 700);
+          })
+
+        })
+        .catch((error) => {
+
+          setIsLoading(false)
+          setLoginError(true)
+          setLoginErrorMsg(error.message)
+          setLoginSuccessMsg('');
+          setLoginSuccess(false);
+        });
+  }
+
   return (
+    <>
+    {redirectOnLogin && <Redirect to="/details/Info" />}
     <div className="border border-gray-400  h-screen rounded-md bg-white">
       <p className="m-12 font-base text-2xl">
         Other Information
       </p>
-      <div className="w-full bg-white m-3 md:max-w-sm md:mx-auto">
+        <div className="w-full bg-white m-3 md:max-w-sm md:mx-auto">
+        {loginSuccess && <FormSuccess text={loginSuccessMsg} />}
+        {loginError && <FormError text={loginErrorMsg} />}
         <form class="md:flex md:flex-wrap md:justify-between"
-          action="/" method="post">
+          action="/" method="post" onSubmit={handleSubmit}>
             <div class="flex flex-col mb-4 md:w-full">
               <label class="mb-3 text-base font-serif text-gray-700 mt-6" for="hear_about_us">
                 Where did you hear about us?
@@ -78,14 +128,23 @@ function Other() {
                 Save As Draft
               </button>
               <button className="block bg-green-500 hover:bg-teal-dark text-white text-sm   w-2/5 h-8 rounded font-serif"
-                type="submit">
-                Submit
+                  type="submit">
+                  {isLoading ? (
+                    <div className="lds-roller">
+                      {[...Array(6)].map((_, index) => (
+                        <div key={index.toString()} className="lds-roller-dot"></div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p> Submit</p>
+                  )}
               </button>
             </div>
             </div>
           </form>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
 
