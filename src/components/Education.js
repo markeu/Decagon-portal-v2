@@ -84,10 +84,9 @@ function Education() {
         <div className="w-full bg-white m-3 md:max-w-sm md:mx-auto">
         {onSuccess && <FormSuccess text={onSuccessMsg} />}
         {onError && <FormError text={onErrorMsg} />}
-        <form class="mb-4 md:flex md:flex-wrap md:justify-between"
-          action="/" method="post" onSubmit={formFields.handleSubmit}>
+        <form className="mb-4 md:flex md:flex-wrap md:justify-between" onSubmit={formFields.handleSubmit}>
            <div className="flex flex-col mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" for="qualification">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="qualification">
                 Highest Qualification
               </label>
                <select
@@ -98,20 +97,20 @@ function Education() {
                   onBlur={formFields.handleBlur}
                   style={{ border: formFields.errors.highest_qualification && "1px solid #d07d7d" }}
               >
-                 { formFields.errors.highest_qualification &&
-                  formFields.errors.highest_qualification &&
-                  formFields.errors.highest_qualification && (
-                  <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.highest_qualification}</span>
-                )}
-                  <option value="">Select an option</option>
-                  <option value="Phd">Phd</option>
-                  <option value="Masters">Masters</option>
-                  <option value="HND/Bachelors">HND/Bachelors</option>
-                  <option value="other">Other</option>
-                </select>
+                <option value="">Select an option</option>
+                <option value="Phd">Phd</option>
+                <option value="Masters">Masters</option>
+                <option value="HND/Bachelors">HND/Bachelors</option>
+                <option value="other">Other</option>
+              </select>
+                { formFields.errors.highest_qualification &&
+                formFields.errors.highest_qualification &&
+                formFields.errors.highest_qualification && (
+                <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.highest_qualification}</span>
+              )}
             </div>
             <div className="flex flex-col mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" for="last_name">Institution</label>
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="last_name">Institution</label>
               <input
                 className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm" type="text"
                 name="institution"
@@ -125,12 +124,12 @@ function Education() {
               { formFields.errors.institution &&
                 formFields.errors.institution &&
                 formFields.errors.institution && (
-                <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.institution}
+                <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.institution}
                 </span>
               )}
             </div>
-            <div class="flex flex-col mb-4 md:w-full">
-              <label class="mb-3 text-base font-serif text-gray-700" for="degree">
+            <div className="flex flex-col mb-4 md:w-full">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="degree">
                 Grade Achieved
               </label>
                <select
@@ -141,21 +140,21 @@ function Education() {
                   onBlur={formFields.handleBlur}
                   style={{ border: formFields.errors.grade && "1px solid #d07d7d" }}
               >
-                  { formFields.errors.grade &&
-                    formFields.errors.grade &&
-                    formFields.errors.grade && (
-                    <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.grade}
-                    </span>
-                  )}
-                  <option value="">Select an option</option>
-                  <option value="first class">First class</option>
-                  <option value="second class upper">Second class upper</option>
-                  <option value="second class lower">Second class lower</option>
-                  <option value="third class">Third class</option>
-                </select>
+                <option value="">Select an option</option>
+                <option value="first class">First class</option>
+                <option value="second class upper">Second class upper</option>
+                <option value="second class lower">Second class lower</option>
+                <option value="third class">Third class</option>
+              </select>
+              { formFields.errors.grade &&
+                formFields.errors.grade &&
+                formFields.errors.grade && (
+                <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.grade}
+                </span>
+              )}
             </div>
             <div className="flex flex-col mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" for="course">Course of Study</label>
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="course">Course of Study</label>
               <input
                 className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm" type="text"
                 name="course_of_study"
@@ -169,81 +168,81 @@ function Education() {
               { formFields.errors.course_of_study &&
                 formFields.errors.course_of_study &&
                 formFields.errors.course_of_study && (
-                <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.course_of_study}
+                <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.course_of_study}
                     </span>
               )}
             </div>
-            <div class="flex flex-col mb-4 md:w-full">
-              <label class="mb-3 text-base font-serif text-gray-700" for="nysc">
+            <div className="flex flex-col mb-4 md:w-full">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="nysc">
                 NYSC Status
               </label>
                <select
                   name="nysc_status"
-                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300   text-sm text-gray-500"
+                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 text-sm text-gray-500"
                   value={formFields.values.nysc_status}
                   onChange={formFields.handleChange}
                   onBlur={formFields.handleBlur}
                   style={{ border: formFields.errors.nysc_status && "1px solid #d07d7d" }}
               >
-                  { formFields.errors.nysc_status &&
-                    formFields.errors.nysc_status &&
-                    formFields.errors.nysc_status && (
-                    <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.nysc_status}
-                    </span>
-                    )}
-                  <option value="">Select an option</option>
-                  <option value="I have completed nysc">I have completed service</option>
-                  <option value="exemption">I have got an exemption</option>
-                  <option value="awaiting service">I am awaiting service</option>
-                  <option value="serving currently">I am currently serving</option>
-                </select>
+                <option value="">Select an option</option>
+                <option value="I have completed nysc">I have completed service</option>
+                <option value="exemption">I have got an exemption</option>
+                <option value="awaiting service">I am awaiting service</option>
+                <option value="serving currently">I am currently serving</option>
+              </select>
+              { formFields.errors.nysc_status &&
+                formFields.errors.nysc_status &&
+                formFields.errors.nysc_status && (
+                <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.nysc_status}
+                </span>
+              )}
             </div>
-            <div class="flex flex-col mb-4 md:w-full">
-              <label class="mb-3 text-base font-serif text-gray-700" for="experience">
+            <div className="flex flex-col mb-4 md:w-full">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="experience">
                 Programming Experience
               </label>
                <select
                   name="programming_experience"
-                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300   text-sm text-gray-500"
+                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 text-sm text-gray-500"
                   value={formFields.values.programming_experience}
                   onChange={formFields.handleChange}
                   onBlur={formFields.handleBlur}
                   style={{ border: formFields.errors.programming_experience && "1px solid #d07d7d" }}
               >
-                  { formFields.errors.programming_experience &&
-                    formFields.errors.programming_experience &&
-                    formFields.errors.programming_experience && (
-                    <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.programming_experience}
-                    </span>
-                    )}
-                  <option value="">Select an option</option>
-                  <option value="No Skill">No Skill</option>
-                  <option value="Beginner">Beginner</option>
-                  <option value="Intermediate">Intermediate</option>
-                </select>
-            </div>
-            <div class="flex flex-col mb-4 md:w-full">
-            <div className="flex justify-between mt-3">
-              <button className="block bg-green-500 hover:bg-teal-dark text-white w-2/5 h-8 text-sm rounded font-serif "
-                type="submit">
-                Save As Draft
-              </button>
-              <button className="block bg-green-500 hover:bg-teal-dark text-white text-sm   w-2/5 h-8 rounded font-serif"
-                  type="submit">
-                  {formFields.isSubmitting ? (
-                  <div className="lds-roller">
-                    {[...Array(6)].map((_, index) => (
-                      <div
-                        key={index.toString()}
-                        className="lds-roller-dot"
-                      ></div>
-                    ))}
-                  </div>
-                ) : (
-                  <p>Save And Continue</p>
+                <option value="">Select an option</option>
+                <option value="No Skill">No Skill</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+              </select>
+              { formFields.errors.programming_experience &&
+                formFields.errors.programming_experience &&
+                formFields.errors.programming_experience && (
+                <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.programming_experience}
+                </span>
               )}
-              </button>
             </div>
+            <div className="flex flex-col mb-4 md:w-full">
+              <div className="flex justify-between mt-3">
+                <button className="block bg-green-500 hover:bg-teal-dark text-white w-2/5 h-8 text-sm rounded font-serif "
+                  type="submit">
+                  Save As Draft
+                </button>
+                <button className="block bg-green-500 hover:bg-teal-dark text-white text-sm w-2/5 h-8 rounded font-serif"
+                    type="submit">
+                    {formFields.isSubmitting ? (
+                    <div className="lds-roller">
+                      {[...Array(6)].map((_, index) => (
+                        <div
+                          key={index.toString()}
+                          className="lds-roller-dot"
+                        ></div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>Save And Continue</p>
+                )}
+                </button>
+              </div>
             </div>
           </form>
       </div>

@@ -69,58 +69,59 @@ return (
       <div className="w-full bg-white m-3 md:max-w-sm md:mx-auto">
         {onSuccess && <FormSuccess text={onSuccessMsg} />}
         {onError && <FormError text={onErrorMsg} />}
-        <form className="mb-4 md:flex md:flex-wrap md:justify-between"
-          action="/" method="post" onSubmit={formFields.handleSubmit}>
-            <div className="flex flex-col mt-10 mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="state_of_origin">
-                State Of Origin
-              </label>
-               <select
-                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300   text-sm text-gray-500"
-                  name="state_of_origin"
-                  value={formFields.values.state_of_origin}
-                  onChange={formFields.handleChange}
-                  onBlur={formFields.handleBlur}
-                  style={{ border: formFields.errors.state_of_origin && "1px solid #d07d7d" }}
-                >
-                  { formFields.errors.state_of_origin &&
-                  formFields.errors.state_of_origin &&
-                  formFields.errors.state_of_origin && (
-                  <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.state_of_origin}</span>
-                )}
-                  {NIGERIAN_STATE.map((state) => (
-                    <option key={state} value={state.toLowerCase()}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
+        <form className="mb-4 md:flex md:flex-wrap md:justify-between" onSubmit={formFields.handleSubmit}>
+          <div className="flex flex-col mt-10 mb-4 md:w-full">
+            <label className="mb-3 text-base font-serif text-gray-700" htmlFor="state_of_origin">
+              State Of Origin
+            </label>
+            <select
+              className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300   text-sm text-gray-500"
+              name="state_of_origin"
+              value={formFields.values.state_of_origin}
+              onChange={formFields.handleChange}
+              onBlur={formFields.handleBlur}
+              style={{ border: formFields.errors.state_of_origin && "1px solid #d07d7d" }}
+            >
+              <option value="">Select a state</option>
+              {NIGERIAN_STATE.map((state) => (
+                <option key={state} value={state.toLowerCase()}>
+                  {state}
+                </option>
+              ))}
+            </select>
+            { formFields.errors.state_of_origin &&
+              formFields.errors.state_of_origin &&
+              formFields.errors.state_of_origin && (
+              <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.state_of_origin}</span>
+            )}
           </div>
           <div className="flex flex-col mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="current_location">
-                Current Location
-              </label>
-               <select
-                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 text-sm text-gray-500"
-                  name="current_location"
-                  value={formFields.values.current_location}
-                  onChange={formFields.handleChange}
-                  onBlur={formFields.handleBlur}
-                  style={{ border: formFields.errors.current_location && "1px solid #d07d7d" }}
-                >
-                    { formFields.errors.current_location &&
-                      formFields.errors.current_location &&
-                      formFields.errors.current_location && (
-                    <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.current_location}
-                    </span>
-                    )}
-                  {NIGERIAN_STATE.map((state) => (
-                    <option key={state} value={state.toLowerCase()}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
-            </div>
-            <div className="flex flex-col mb-4 md:w-full">
+            <label className="mb-3 text-base font-serif text-gray-700" htmlFor="current_location">
+              Current Location
+            </label>
+            <select
+              className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 text-sm text-gray-500"
+              name="current_location"
+              value={formFields.values.current_location}
+              onChange={formFields.handleChange}
+              onBlur={formFields.handleBlur}
+              style={{ border: formFields.errors.current_location && "1px solid #d07d7d" }}
+            >
+              <option value="">Select a state</option>
+              {NIGERIAN_STATE.map((state) => (
+                <option key={state} value={state.toLowerCase()}>
+                  {state}
+                </option>
+              ))}
+            </select>
+            { formFields.errors.current_location &&
+              formFields.errors.current_location &&
+              formFields.errors.current_location && (
+            <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.current_location}
+            </span>
+            )}
+          </div>
+          <div className="flex flex-col mb-4 md:w-full">
             <div className="flex justify-between mt-3">
               <button className="block bg-green-500 hover:bg-teal-dark text-white w-2/5 h-8 text-sm rounded font-serif "
                 type="submit">
@@ -153,7 +154,6 @@ return (
 export default AddressInfo
 
 const NIGERIAN_STATE = [
-  "Select a state",
   "Abia",
   "Adamawa",
   "Akwa Ibom",
