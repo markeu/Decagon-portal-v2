@@ -33,7 +33,7 @@ const Signup = () => {
       if (!values.firstName) {
         errors.firstName = 'First name is required!';
       }
-      
+
       return errors;
     },
     onSubmit: async (values, { setSubmitting }) => {
@@ -88,7 +88,7 @@ const Signup = () => {
                 onBlur={signupFormFields.handleBlur}
                 style={{ border: signupFormFields.errors.title && "1px solid #d07d7d" }}
               >
-                
+
                   <option value="" >Choose your title</option>
                   <option value="Mr">Mr</option>
                   <option value="Mrs">Mrs</option>
@@ -159,7 +159,7 @@ const Signup = () => {
                   <span className="text-base font-serif text-red-700 mt-2">{signupFormFields.errors.email}</span>
                 )}
             </div>
-            <button className="block bg-green-500 hover:bg-teal-dark text-white text-base p-2 rounded font-serif md:w-full mt-4" 
+            <button className="block bg-green-500 hover:bg-teal-dark text-white text-base p-2 rounded font-serif md:w-full mt-4"
               type="submit"
               style={{
                 textAlign: "center",

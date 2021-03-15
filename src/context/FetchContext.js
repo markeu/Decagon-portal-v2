@@ -6,7 +6,7 @@ const { Provider } = FetchContext;
 
 const FetchProvider = ({ children }) => {
   const authAxios = axios.create({
-    baseURL: "https://tradedepotapp.herokuapp.com"
+    baseURL: "http://decadev-recruitment-portal.herokuapp.com/api/v1"
   });
 
   return (
