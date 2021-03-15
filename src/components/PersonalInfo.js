@@ -36,7 +36,7 @@ function PersonalInfo() {
 
   const handleSubmit = async (e) => {
     const errorsFields = validateApplication(state);
-    console.log(errorsFields);
+
     if (errorsFields) {
         return setErrors({ ...errors, ...errorsFields });
     }
@@ -192,11 +192,11 @@ function PersonalInfo() {
                   ) : (
                     <p>Save And Continue</p>
                   )}
-              </button>
-            </div>
+               </button>
+             </div>
             </div>
           </form>
-      </div>
+        </div>
       </div>
     </>
   )

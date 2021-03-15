@@ -61,7 +61,7 @@ function AddressInfo() {
 
 return (
     <>
-    {redirectOnSuccess && <Redirect to="registration/education" />}
+    {redirectOnSuccess && <Redirect to="/registration/education" />}
       <div className="border border-gray-400  h-screen rounded-md bg-white">
       <p className="m-12 font-base text-2xl">
         Address Information

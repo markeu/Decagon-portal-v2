@@ -4,7 +4,7 @@ function Other() {
 
   const [state, setState] = useState({hear_about_us: "", decadev: ""});
   const [isOther, setIsOther] = useState({ other: false, decadev: false});
-console.log(state);
+
   const handleSelect = (event) => {
     const { name, value } = event.target;
 
@@ -18,7 +18,6 @@ console.log(state);
       setIsOther({other: false, decadev: false})
       setState({ ...state, [name]: value});
     }
-
   }
   return (
     <div className="border border-gray-400  h-screen rounded-md bg-white">
