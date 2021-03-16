@@ -58,7 +58,7 @@ const Login = () => {
 
   return (
     <>
-      {redirectOnLogin && <Redirect to="/details" />}
+      {redirectOnLogin && <Redirect to="/registration/personalInfo" />}
       <LandingPageHeader content="Application Portal" />
       <div className="flex items-center mt-12">
         <div className="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
