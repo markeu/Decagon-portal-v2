@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from 'react';
+import { useHistory } from 'react-router-dom';
 import '../css/lds-roller.scss';
 import { publicFetch } from '../util/fetch';
 const defaultState = {
@@ -16,17 +17,16 @@ const defaultState = {
   programmingExperience: ''
 }
 
-
 function Details() {
   const [state, setState] = useState(defaultState)
 
+  const history = useHistory()
   useEffect(() => {
     publicFetch.get(`/user/retrieve`)
-      .then(({ data: {data} }) => {
-        setState(data)
-      })
+    .then(({ data: {data} }) => {
+      setState(data)
+    })
   }, [])
-
 
   return (
     <>
@@ -36,7 +36,7 @@ function Details() {
         </p>
         <div className="absolute top-3 right-0 h-6 mr-12">
           <p className="font-semibold mb-2">Application Status :</p>
-          <p className="text-green-400 font-medium">Application is being reviewed</p>
+          <p className="text-green-400 font-medium">{state.status}</p>
         </div>
         <div className="w-full bg-white mt-32 ml-8">
           <TabDetails name='First Name' title={state.firstName} />
@@ -63,10 +63,10 @@ export default Details
 function TabDetails(props) {
   return (
     <>
-          <div className="flex">
-            <p className="font-medium w-2/5 mb-4 text-base">{props.name}</p>
-            <p className="font-thin ml-6">{props.title}</p>
-          </div>
+      <div className="flex">
+        <p className="font-medium w-2/5 mb-4 text-base">{props.name}</p>
+        <p className="font-thin ml-6">{props.title}</p>
+      </div>
     </>
   )
 }
@@ -81,7 +81,6 @@ function TabDetailsButton(props) {
           Update
         </button>
       </div>
-
     </>
   )
 }
