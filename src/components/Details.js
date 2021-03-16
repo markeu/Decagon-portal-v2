@@ -1,5 +1,4 @@
 import React,{useEffect, useState} from 'react';
-import { useHistory } from 'react-router-dom';
 import '../css/lds-roller.scss';
 import { publicFetch } from '../util/fetch';
 const defaultState = {
@@ -20,7 +19,6 @@ const defaultState = {
 function Details() {
   const [state, setState] = useState(defaultState)
 
-  const history = useHistory()
   useEffect(() => {
     publicFetch.get(`/user/retrieve`)
     .then(({ data: {data} }) => {
