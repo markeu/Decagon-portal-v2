@@ -116,7 +116,6 @@ const AppRoutes = () => {
           <AuthenticatedRoute path="/dashboard">
             <Dashboard />
           </AuthenticatedRoute>
-
           <AdminRoute path="/admin/invite">
             <AdminInvite />
           </AdminRoute>
