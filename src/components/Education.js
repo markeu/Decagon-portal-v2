@@ -173,14 +173,16 @@ function Education() {
               )}
             </div>
             <div className="flex flex-col mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="nysc">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="nysc_status">
                 NYSC Status
               </label>
                <select
-                  name="nysc"
-                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300   text-sm text-gray-500"
-                  value=''
-                  onChange=''
+                  name="nysc_status"
+                  className="border rounded py-1 px-3 border-gray-600 placeholder-gray-300 text-sm text-gray-500"
+                  value={formFields.values.nysc_status}
+                  onChange={formFields.handleChange}
+                  onBlur={formFields.handleBlur}
+                  style={{ border: formFields.errors.nysc_status && "1px solid #d07d7d" }}
                 >
                   <option value="">Select an option</option>
                   <option value="completed">I have completed service</option>
@@ -188,6 +190,12 @@ function Education() {
                   <option value="awaiting service">I am awaiting service</option>
                   <option value="serving currently">I am currently serving</option>
                 </select>
+                { formFields.errors.nysc_status &&
+                formFields.errors.nysc_status &&
+                formFields.errors.nysc_status && (
+                <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.nysc_status}
+                </span>
+              )}
             </div>
             <div className="flex flex-col mb-4 md:w-full">
               <label className="mb-3 text-base font-serif text-gray-700" htmlFor="experience">
