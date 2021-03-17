@@ -40,7 +40,7 @@ function PersonalInfo() {
       }
       if (values.phone_number) {
         const PHONE_PATTERN = /^(\+234|0)\d{10}$/;
-        const correctPhoneNumber = PHONE_PATTERN.test(String(value));
+        const correctPhoneNumber = PHONE_PATTERN.test(String(values.phone_number));
         if (!correctPhoneNumber) {
           errors.phone_number = "Phone number is invalid";
         }
