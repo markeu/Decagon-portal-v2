@@ -54,7 +54,6 @@ function Education() {
           values
         )
         .then(({ data }) => {
-          console.log(data, 'i got back');
           setSubmitting(false);
           setOnSuccessMsg(data.message);
           setOnSuccess(true)
