@@ -27,7 +27,7 @@ function PersonalInfo() {
   const formFields = useFormik({
     initialValues: {
       gender: '',
-      phoneNumber: '',
+      phone_number: '',
       dob: ''
     },
     validate: (values) => {
@@ -35,8 +35,16 @@ function PersonalInfo() {
       if (!values.gender) {
         errors.gender = 'Gender is required!';
       }
-      if (!values.phoneNumber) {
-        errors.phoneNumber = 'Phone number is required!';
+      if (!values.phone_number) {
+        errors.phone_number = 'Phone number is required!';
+      }
+      if (values.phone_number) {
+        const PHONE_PATTERN = /^(\+234|0)\d{10}$/;
+        const correctPhoneNumber = PHONE_PATTERN.test(String(values.phone_number));
+        if (!correctPhoneNumber) {
+          errors.phone_number = "Phone number is invalid";
+        }
+        errors.phone_number = 'Phone number is required!';
       }
       if (!values.dob) {
         errors.dob = 'Date of birth is required!';
@@ -160,18 +168,18 @@ function PersonalInfo() {
               <input
                 className="border rounded py-1 px-3 border-gray-600 placeholder-gray-500 text-sm"
                 type="text"
-                name="phoneNumber"
+                name="phone_number"
                 id="phone_number"
                 placeholder="Phone Number"
-                value={formFields.values.phoneNumber}
+                value={formFields.values.phone_number}
                 onChange={formFields.handleChange}
                 onBlur={formFields.handleBlur}
-                style={{ border: formFields.errors.phoneNumber && "1px solid #d07d7d" }}
+                style={{ border: formFields.errors.phone_number && "1px solid #d07d7d" }}
               />
-              { formFields.errors.phoneNumber &&
-                formFields.errors.phoneNumber &&
-                formFields.errors.phoneNumber && (
-              <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.phoneNumber}
+              { formFields.errors.phone_number &&
+                formFields.errors.phone_number &&
+                formFields.errors.phone_number && (
+              <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.phone_number}
               </span>
               )}
             </div>
