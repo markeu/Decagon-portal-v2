@@ -44,7 +44,6 @@ function PersonalInfo() {
         if (!correctPhoneNumber) {
           errors.phone_number = "Phone number is invalid";
         }
-        errors.phone_number = 'Phone number is required!';
       }
       if (!values.dob) {
         errors.dob = 'Date of birth is required!';
