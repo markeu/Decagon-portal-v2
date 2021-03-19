@@ -19,22 +19,22 @@ const Login = () => {
     );
   function redirect(data) {
 
-    if (data.data.personalInfo === false) {
+    if (!data.data.personalInfo) {
       return (
         <Redirect to="/registration/personalInfo" />
       )
     }
-    if (data.data.addressInfo === false) {
+    if (!data.data.addressInfo) {
       return (
         <Redirect to="/registration/addressInfo" />
       )
     }
-    if (data.data.educationInfo === false) {
+    if (!data.data.educationInfo) {
       return (
         <Redirect to="/registration/education" />
       )
     }
-    if (data.data.otherInfo === false) {
+    if (!data.data.otherInfo) {
       return (
         <Redirect to="/registration/other" />
       )
@@ -62,7 +62,6 @@ const Login = () => {
           values
         )
         .then(({data}) => {
-          console.log(data);
           setGetData(data)
           setSubmitting(false);
           authContext.setAuthState(data);

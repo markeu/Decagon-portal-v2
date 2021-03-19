@@ -1,22 +1,22 @@
 import React,{useEffect, useState} from 'react';
 import '../css/lds-roller.scss';
 import { publicFetch } from '../util/fetch';
-const defaultState = {
-  firstName: '',
-  lastName: '',
-  dob: '',
-  phoneNumber: '',
-  stateOfOrigin: '',
-  currentLocation: '',
-  highestQualification: '',
-  institution: '',
-  grade: '',
-  courseOfStudy: '',
-  nyscStatus: '',
-  programmingExperience: ''
-}
 
 function Details() {
+  const defaultState = {
+    firstName: '',
+    lastName: '',
+    dob: '',
+    phoneNumber: '',
+    stateOfOrigin: '',
+    currentLocation: '',
+    highestQualification: '',
+    institution: '',
+    grade: '',
+    courseOfStudy: '',
+    nyscStatus: '',
+    programmingExperience: ''
+  }
   const [state, setState] = useState(defaultState)
 
   useEffect(() => {
