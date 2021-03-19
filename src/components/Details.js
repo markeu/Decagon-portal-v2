@@ -25,8 +25,7 @@ function Details() {
       .then(({ data: {data} }) => {
         setState(data)
       })
-  }, [])
-
+  })
 
   return (
     <>

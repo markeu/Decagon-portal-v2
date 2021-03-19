@@ -25,7 +25,6 @@ import Success from './pages/Success';
 
 const Registration = lazy(() => import('./pages/Dashboard'))
 const Dashboard = lazy(() => import('./pages/Dashboard'));
-
 const Passsword = lazy(() => import('./pages/Password'));
 const Users = lazy(() => import('./pages/Users'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
@@ -96,8 +95,7 @@ const AdminRoute = ({ children, ...rest }) => {
           {children}
         ) : (
           <Redirect to="/" />
-        )
-      }
+        )}
     ></Route>
   );
 };
@@ -116,7 +114,6 @@ const AppRoutes = () => {
           <AuthenticatedRoute path="/dashboard">
             <Dashboard />
           </AuthenticatedRoute>
-
           <AdminRoute path="/admin/invite">
             <AdminInvite />
           </AdminRoute>

@@ -10,13 +10,40 @@ import { useFormik } from 'formik';
 const Login = () => {
   const authContext = useContext(AuthContext);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [getData, setGetData] = useState({});
   const [loginSuccessMsg, setLoginSuccessMsg] = useState('');
   const [loginError, setLoginError] = useState(false);
   const [loginErrorMsg, setLoginErrorMsg] = useState('');
   const [redirectOnLogin, setRedirectOnLogin] = useState(
     false
     );
+  function redirect(data) {
 
+    if (data.data.personalInfo === false) {
+      return (
+        <Redirect to="/registration/personalInfo" />
+      )
+    }
+    if (data.data.addressInfo === false) {
+      return (
+        <Redirect to="/registration/addressInfo" />
+      )
+    }
+    if (data.data.educationInfo === false) {
+      return (
+        <Redirect to="/registration/education" />
+      )
+    }
+    if (data.data.otherInfo === false) {
+      return (
+        <Redirect to="/registration/other" />
+      )
+    }
+    return (
+      <Redirect to="/details/Info" />
+    )
+
+  }
   const loginFormFields = useFormik({
     initialValues: { email: '', password: '' },
     validate: (values) => {
@@ -35,6 +62,8 @@ const Login = () => {
           values
         )
         .then(({data}) => {
+          console.log(data);
+          setGetData(data)
           setSubmitting(false);
           authContext.setAuthState(data);
           setLoginSuccessMsg(data.message);
@@ -58,7 +87,7 @@ const Login = () => {
 
   return (
     <>
-      {redirectOnLogin && <Redirect to="/registration/personalInfo" />}
+      {redirectOnLogin && redirect(getData)}
       <LandingPageHeader content="Application Portal" />
       <div className="flex items-center mt-12">
         <div className="w-full bg-white p-8 m-4 md:max-w-sm md:mx-auto">
@@ -123,7 +152,7 @@ const Login = () => {
                     Keep me logged in
                 </label>
               </div>
-              <button className="block bg-green-500 hover:bg-teal-dark text-white text-base p-2 rounded font-serif md:w-full" 
+              <button className="block bg-green-500 hover:bg-teal-dark text-white text-base p-2 rounded font-serif md:w-full"
                 type="submit"
                 style={{
                   textAlign: "center",
