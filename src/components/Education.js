@@ -54,7 +54,6 @@ function Education() {
           values
         )
         .then(({ data }) => {
-          console.log(data, 'i got back');
           setSubmitting(false);
           setOnSuccessMsg(data.message);
           setOnSuccess(true)
@@ -173,7 +172,7 @@ function Education() {
               )}
             </div>
             <div className="flex flex-col mb-4 md:w-full">
-              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="nysc">
+              <label className="mb-3 text-base font-serif text-gray-700" htmlFor="nysc_status">
                 NYSC Status
               </label>
                <select
@@ -183,17 +182,17 @@ function Education() {
                   onChange={formFields.handleChange}
                   onBlur={formFields.handleBlur}
                   style={{ border: formFields.errors.nysc_status && "1px solid #d07d7d" }}
-              >
-                <option value="">Select an option</option>
-                <option value="I have completed nysc">I have completed service</option>
-                <option value="exemption">I have got an exemption</option>
-                <option value="awaiting service">I am awaiting service</option>
-                <option value="serving currently">I am currently serving</option>
-              </select>
-              { formFields.errors.nysc_status &&
+                >
+                  <option value="">Select an option</option>
+                  <option value="completed">I have completed service</option>
+                  <option value="exemption">I have got an exemption</option>
+                  <option value="awaiting service">I am awaiting service</option>
+                  <option value="serving currently">I am currently serving</option>
+                </select>
+                { formFields.errors.nysc_status &&
                 formFields.errors.nysc_status &&
                 formFields.errors.nysc_status && (
-                <span className="text-base font-serif text-red-700 mt-2">   {formFields.errors.nysc_status}
+                <span className="text-base font-serif text-red-700 mt-2">{formFields.errors.nysc_status}
                 </span>
               )}
             </div>
