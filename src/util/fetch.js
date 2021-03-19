@@ -17,7 +17,6 @@ const publicFetch = axios.create({
 
 publicFetch.interceptors.request.use(
     (config) => {
-        console.log(config);
         let tokens = ''
         const user = localStorage.getItem('userInfo')
         if (user) {
